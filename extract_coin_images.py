@@ -25,15 +25,23 @@ for path in img_path:
 
     # Draw contour
     dst = img.copy()
-    # dst = th.copy()
-    # dst = cv2.cvtColor(dst, cv2.COLOR_GRAY2BGR)
     idx = 0
     while idx >= 0:
+        # ellipse = cv2.fitEllipse(contours[idx])
+        # cv2.ellipse(dst, ellipse, (0, 200, 0), 2)
+        cnt = contours[idx]
+        area = cv2.contourArea(cnt)
+        if not (1000 > area and area > 10000):
+            continue
         cv2.drawContours(dst, contours, idx, (0, 200, 0), 2)
         idx = hier[0, idx, 0]
 
     # Show
-    cv2.imshow(os.path.basename(path), dst)
+    title = os.path.basename(path)
+    # cv2.imshow(title + " - img", img)
+    # cv2.imshow(title + " - gray", gray)
+    # cv2.imshow(title + " - th", th)
+    cv2.imshow(title + " - dst", dst)
 
 cv2.waitKey(0)
 cv2.destroyAllWindows()
