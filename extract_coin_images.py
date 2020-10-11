@@ -2,7 +2,11 @@ import glob
 import cv2
 import os
 
-img_path = glob.glob("data/origin_images/*")
+# img_path = glob.glob("data/origin_images/*")
+img_path_1 = glob.glob("data/origin_images/*49.jpg")
+img_path_2 = glob.glob("data/origin_images/*18.jpg")
+img_path_3 = glob.glob("data/origin_images/*26.jpg")
+img_path = [img_path_1[0], img_path_2[0], img_path_3[0]]
 
 for path in img_path:
     # Read image
@@ -29,8 +33,9 @@ for path in img_path:
     while idx >= 0:
         cnt = contours[idx]
         area = cv2.contourArea(cnt)
-        if 1000 > area or area > 10000:
+        if 500 > area or area > 10000:
             idx = hier[0, idx, 0]
+            print(area)
             continue
         ellipse = cv2.fitEllipse(contours[idx])
         cv2.ellipse(dst, ellipse, (0, 200, 0), 2)
