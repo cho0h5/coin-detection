@@ -3,9 +3,7 @@ import cv2
 import os
 
 # img_path = glob.glob("data/origin_images/*")
-img_path_1 = glob.glob("data/origin_images/*49.jpg")
-img_path_3 = glob.glob("data/origin_images/*26.jpg")
-img_path = [img_path_1[0], img_path_3[0]]
+img_path = glob.glob("data/origin_images/*49.jpg")
 
 for path in img_path:
     # Read image
@@ -55,5 +53,6 @@ for path in img_path:
     cv2.imshow(title + " - th", th)
     cv2.imshow(title + " - dst", dst)
 
-cv2.waitKey(0)
+while cv2.waitKey(0) != ord('q'):
+    pass
 cv2.destroyAllWindows()
