@@ -4,9 +4,8 @@ import os
 
 # img_path = glob.glob("data/origin_images/*")
 img_path_1 = glob.glob("data/origin_images/*49.jpg")
-img_path_2 = glob.glob("data/origin_images/*18.jpg")
 img_path_3 = glob.glob("data/origin_images/*26.jpg")
-img_path = [img_path_1[0], img_path_2[0], img_path_3[0]]
+img_path = [img_path_1[0], img_path_3[0]]
 
 for path in img_path:
     # Read image
@@ -35,8 +34,15 @@ for path in img_path:
         area = cv2.contourArea(cnt)
         if 500 > area or area > 10000:
             idx = hier[0, idx, 0]
-            print(area)
             continue
+
+        _, _, w, h = cv2.boundingRect(cnt)
+        aspect_ratio = w / h
+        
+        if abs(1 - aspect_ratio) > 0.4:
+            idx = hier[0, idx, 0]
+            continue
+
         ellipse = cv2.fitEllipse(contours[idx])
         cv2.ellipse(dst, ellipse, (0, 200, 0), 2)
         # cv2.drawContours(dst, contours, idx, (0, 200, 0), 2)
