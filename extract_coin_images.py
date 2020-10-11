@@ -12,8 +12,11 @@ for path in img_path:
 
     blur = cv2.GaussianBlur(gray, (0, 0), 3)
 
-    _, th = cv2.threshold(
-        blur, 0, 255, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)
+    # _, th = cv2.threshold(
+    #     blur, 0, 255, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)
+
+    th = cv2.adaptiveThreshold(
+        blur, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY_INV, 11, 2)
 
     cv2.imshow(os.path.basename(path), th)
 
