@@ -41,7 +41,7 @@ for path in img_path:
     title = os.path.basename(path)
     # cv2.imshow(title + " - img", img)
     # cv2.imshow(title + " - gray", gray)
-    # cv2.imshow(title + " - th", th)
+    cv2.imshow(title + " - th", th)
     cv2.imshow(title + " - dst", dst)
 
 cv2.waitKey(0)
