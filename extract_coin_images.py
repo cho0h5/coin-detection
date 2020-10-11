@@ -2,8 +2,7 @@ import glob
 import cv2
 import os
 
-# img_path = glob.glob("data/origin_images/*")
-img_path = glob.glob("data/origin_images/*49.jpg")
+img_path = glob.glob("data/origin_images/*")
 
 for path in img_path:
     # Read image
@@ -28,29 +27,35 @@ for path in img_path:
     dst = img.copy()
     idx = 0
     while idx >= 0:
+        # Filter area
         cnt = contours[idx]
         area = cv2.contourArea(cnt)
-        if 500 > area or area > 10000:
+        if 500 > area or area > 6000:
             idx = hier[0, idx, 0]
             continue
 
+        # Filter aspect ratio
         _, _, w, h = cv2.boundingRect(cnt)
         aspect_ratio = w / h
-        
         if abs(1 - aspect_ratio) > 0.4:
             idx = hier[0, idx, 0]
             continue
 
-        ellipse = cv2.fitEllipse(contours[idx])
+        # Convex hull
+        hull = cv2.convexHull(contours[idx])
+
+        # Fit ellipse
+        ellipse = cv2.fitEllipse(hull)
+
+        # Draw ellipse
         cv2.ellipse(dst, ellipse, (0, 200, 0), 2)
-        # cv2.drawContours(dst, contours, idx, (0, 200, 0), 2)
         idx = hier[0, idx, 0]
 
     # Show
     title = os.path.basename(path)
     # cv2.imshow(title + " - img", img)
     # cv2.imshow(title + " - gray", gray)
-    cv2.imshow(title + " - th", th)
+    # cv2.imshow(title + " - th", th)
     cv2.imshow(title + " - dst", dst)
 
 while cv2.waitKey(0) != ord('q'):
