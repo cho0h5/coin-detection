@@ -27,13 +27,14 @@ for path in img_path:
     dst = img.copy()
     idx = 0
     while idx >= 0:
-        # ellipse = cv2.fitEllipse(contours[idx])
-        # cv2.ellipse(dst, ellipse, (0, 200, 0), 2)
         cnt = contours[idx]
         area = cv2.contourArea(cnt)
-        if not (1000 > area and area > 10000):
+        if 1000 > area or area > 10000:
+            idx = hier[0, idx, 0]
             continue
-        cv2.drawContours(dst, contours, idx, (0, 200, 0), 2)
+        ellipse = cv2.fitEllipse(contours[idx])
+        cv2.ellipse(dst, ellipse, (0, 200, 0), 2)
+        # cv2.drawContours(dst, contours, idx, (0, 200, 0), 2)
         idx = hier[0, idx, 0]
 
     # Show
