@@ -44,12 +44,15 @@ for path in img_path:
         # Convex hull
         hull = cv2.convexHull(contours[idx])
 
-        # Fit ellipse
-        ellipse = cv2.fitEllipse(hull)
+        # Fit rectangle
+        x, y, w, h = cv2.boundingRect(hull)
 
-        # Draw ellipse
-        cv2.ellipse(dst, ellipse, (0, 200, 0), 2)
+        # Draw rectangle
+        cv2.rectangle(dst, (x, y), (x+w, y+h), (0, 0, 255), 1)
+
         idx = hier[0, idx, 0]
+
+        # Write coin image
 
     # Show
     title = os.path.basename(path)
