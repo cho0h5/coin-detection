@@ -1,7 +1,6 @@
 # Korean Coin Detection
 
-## Performance
-OMG  
+## Performance (OMG)
 ![acc](https://github.com/dominoyh5/coin-detection/blob/main/.github/img/acc.png?raw=true)
 ![100won](https://raw.githubusercontent.com/dominoyh5/coin-detection/main/.github/img/100won.png)
 ![coins](https://github.com/dominoyh5/coin-detection/blob/main/.github/img/coins.png?raw=true)
