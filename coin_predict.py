@@ -1,8 +1,14 @@
 import glob
 import cv2
 import os
+import numpy as np
+from keras.models import load_model
 
-img_path = glob.glob("data/origin_images/*")
+labels = ["100won", "10won", "500won", "50won"]
+
+model = load_model('model/my_model.h5')
+
+img_path = glob.glob("data/origin_images/*.jpg")
 
 for path in img_path:
     # Read image
@@ -49,13 +55,20 @@ for path in img_path:
 
         # Draw rectangle
         cv2.rectangle(dst, (x, y), (x+w, y+h), (0, 0, 255), 1)
-
         idx = hier[0, idx, 0]
 
-        # Write coin image
+        # Crop coin image
         coin = org[y*5:(y+h)*5, x*5:(x+w)*5, :]
         coin = cv2.resize(coin, (300, 300), interpolation=cv2.INTER_AREA)
-        cv2.imwrite("data/origin_coins/" + os.path.basename(path) + "-" + str(idx) + ".jpg", coin)
+
+        # Predict
+        coin = coin.reshape(-1, 300, 300, 3)
+        prediction = model.predict([coin])
+        label = labels[np.argmax(prediction)]
+
+        # Show label
+        cv2.putText(dst, label, (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0))
+
 
     # Show
     title = os.path.basename(path)
