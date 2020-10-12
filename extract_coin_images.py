@@ -3,12 +3,12 @@ import cv2
 import os
 
 # img_path = glob.glob("data/origin_images/*")
-img_path = glob.glob("data/origin_images/*49.jpg")
+img_path = glob.glob("data/origin_images/*.jpg")
 
 for path in img_path:
     # Read image
-    img = cv2.imread(path)
-    img = cv2.resize(img, (0, 0), fx=0.2, fy=0.2, interpolation=cv2.INTER_AREA)
+    org = cv2.imread(path)
+    img = cv2.resize(org, (0, 0), fx=0.2, fy=0.2, interpolation=cv2.INTER_AREA)
 
     # Convert image to gray
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -54,7 +54,9 @@ for path in img_path:
         idx = hier[0, idx, 0]
 
         # Write coin image
-        cv2.imshow(str(idx), img[y:y+h, x:x+w, :])
+        coin = org[y*5:(y+h)*5, x*5:(x+w)*5, :]
+        coin = cv2.resize(coin, (300, 300), interpolation=cv2.INTER_AREA)
+        cv2.imwrite("data/origin_coins/" + os.path.basename(path) + "-" + str(idx) + ".jpg", coin)
 
     # Show
     title = os.path.basename(path)
