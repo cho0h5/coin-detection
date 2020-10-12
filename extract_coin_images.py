@@ -2,7 +2,8 @@ import glob
 import cv2
 import os
 
-img_path = glob.glob("data/origin_images/*")
+# img_path = glob.glob("data/origin_images/*")
+img_path = glob.glob("data/origin_images/*49.jpg")
 
 for path in img_path:
     # Read image
@@ -53,6 +54,7 @@ for path in img_path:
         idx = hier[0, idx, 0]
 
         # Write coin image
+        cv2.imshow(str(idx), img[y:y+h, x:x+w, :])
 
     # Show
     title = os.path.basename(path)
